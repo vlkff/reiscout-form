@@ -1,0 +1,10 @@
+# This is the routing file for the 'Hello, World!' module.
+# This file uses YAML format.
+
+hello_world.awesome_custom_page:
+  path: '/hello/world'
+  defaults:
+    _controller: '\Drupal\hello_world\Controller\HelloWorldAwesomeController::awesomeMethod'
+    _title: 'The Awesome Custom Page'
+  requirements:
+    _permission: 'access content'

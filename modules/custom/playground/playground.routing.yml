@@ -1,0 +1,10 @@
+# This is the routing file for the 'Hello, World!' module.
+# This file uses YAML format.
+
+playground.find_node_page:
+  path: 'playground/find-node/{search}'
+  defaults:
+    _controller: '\Drupal\playground\Controller\PlaygroundNodeSearchController::search'
+    _title: 'Search node by title'
+  requirements:
+    _permission: 'access content'
