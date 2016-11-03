@@ -1,5 +1,0 @@
-name: Users Online
-type: module
-description: Implement a few blocks showing number of online and registered users.
-core: 8.x
-package: Custom
