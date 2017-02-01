@@ -4,7 +4,6 @@ namespace Drupal\views_ui;
 
 use Drupal\Component\Utility\Html;
 use Drupal\Component\Utility\SafeMarkup;
-use Drupal\Component\Utility\Xss;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\HtmlCommand;
 use Drupal\Core\Ajax\ReplaceCommand;
@@ -266,7 +265,7 @@ class ViewEditForm extends ViewFormBase {
 
     // Rename display ids if needed.
     foreach ($executable->displayHandlers as $id => $display) {
-      if (!empty($display->display['new_id'])) {
+      if (!empty($display->display['new_id']) && empty($display->display['deleted'])) {
         $new_id = $display->display['new_id'];
         $display->display['id'] = $new_id;
         unset($display->display['new_id']);
@@ -1056,7 +1055,7 @@ class ViewEditForm extends ViewFormBase {
         $field_name = '(' . $relationships[$field['relationship']] . ') ' . $field_name;
       }
 
-      $description = Xss::filterAdmin($handler->adminSummary());
+      $description = $handler->adminSummary();
       $link_text = $field_name . (empty($description) ? '' : " ($description)");
       $link_attributes = array('class' => array('views-ajax-link'));
       if (!empty($field['exclude'])) {
@@ -1071,7 +1070,7 @@ class ViewEditForm extends ViewFormBase {
         'type' => $type,
         'id' => $id,
       ), array('attributes' => $link_attributes)));
-      $build['fields'][$id]['#class'][] = Html::cleanCssIdentifier($display['id']. '-' . $type . '-' . $id);
+      $build['fields'][$id]['#class'][] = Html::cleanCssIdentifier($display['id'] . '-' . $type . '-' . $id);
 
       if ($executable->display_handler->useGroupBy() && $handler->usesGroupBy()) {
         $build['fields'][$id]['#settings_links'][] = $this->l(SafeMarkup::format('<span class="label">@text</span>', array('@text' => $this->t('Aggregation settings'))), new Url('views_ui.form_handler_group', array(
